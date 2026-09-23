@@ -3,7 +3,7 @@ using Documenter
 using DocumenterCodeBlocks
 
 # Demo module rendered on the style pages.
-include(joinpath(@__DIR__, "ConvDemo.jl"))
+include(joinpath(@__DIR__, "..", "assets", "preview", "ConvDemo.jl"))
 DocMeta.setdocmeta!(ConvDemo, :DocTestSetup, :(using Main.ConvDemo); recursive = true)
 
 DocMeta.setdocmeta!(

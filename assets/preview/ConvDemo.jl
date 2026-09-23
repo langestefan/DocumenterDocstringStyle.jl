@@ -1,4 +1,4 @@
-# Demo module for the style pages. The `conv2d`, `channels` and `reset_cache!`
+# Demo module for the style pages and `preview`. The `conv2d`, `channels` and `reset_cache!`
 # docstrings are the design's reference docstrings, copied verbatim.
 module ConvDemo
 
