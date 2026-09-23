@@ -62,7 +62,7 @@ function build_preview(theme, open::Bool, demo::Module, codeblocks)
         Documenter.makedocs(;
             root = dir, source = "src", build = "build", sitename = "DocumenterDocstringStyle preview",
             modules = [demo], pages, plugins, remotes = nothing, doctest = false, checkdocs = :none,
-            warnonly = true, format = Documenter.HTML(; prettyurls = false, inventory_version = "0", repolink = nothing),
+            warnonly = true, format = Documenter.HTML(; prettyurls = false, inventory_version = "0", repolink = nothing, edit_link = nothing),
         )
     end
     index = joinpath(dir, "build", "index.html")
