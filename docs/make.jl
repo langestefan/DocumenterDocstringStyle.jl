@@ -1,6 +1,7 @@
 using DocumenterDocstringStyle
 using Documenter
 using DocumenterCodeBlocks
+using DocumenterCitations
 
 # Demo module rendered on the style pages.
 include(joinpath(@__DIR__, "..", "assets", "preview", "ConvDemo.jl"))
@@ -22,7 +23,7 @@ const titles = Dict(
 )
 
 # Pages listed here come first, in this order; the rest follow by filename
-const order = ["getting-started.md", "schema.md", "styles", "custom-styles.md", "reference.md"]
+const order = ["getting-started.md", "schema.md", "styles", "custom-styles.md", "reference.md", "bibliography.md"]
 page_rank(file) = (something(findfirst(==(file), order), length(order) + 1), file)
 
 function recursively_list_pages(folder; path_prefix = "")
@@ -74,6 +75,9 @@ function list_pages()
     return ["index.md"; pages_list]
 end
 
+# Sources cited by the demo docstrings.
+const bib = CitationBibliography(joinpath(@__DIR__, "..", "assets", "preview", "refs.bib"))
+
 makedocs(;
     modules = [DocumenterDocstringStyle, ConvDemo],
     authors = "Stefan de Lange <langestefan@msn.com>",
@@ -83,7 +87,7 @@ makedocs(;
         canonical = "https://langestefan.github.io/DocumenterDocstringStyle.jl",
     ),
     pages = list_pages(),
-    plugins = [SchemaConfig(strict = true, theme = :plain), CodeBlocks()],
+    plugins = [SchemaConfig(strict = true, theme = :plain), CodeBlocks(), bib],
 )
 
 deploydocs(; repo = "github.com/langestefan/DocumenterDocstringStyle.jl")
