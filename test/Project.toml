@@ -1,7 +1,12 @@
 [deps]
 Aqua = "4c88cf16-eb10-579e-8560-4a9242c79595"
+DocStringExtensions = "ffbed154-4ef7-542d-bbb7-c09d3a79fcae"
+Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
+DocumenterCodeBlocks = "b6400b83-267f-4b55-9fd8-bffc853bdfd8"
 DocumenterDocstringStyle = "4cc0470b-6d85-5391-9027-e4f74231ca86"
 JET = "c3a54625-cd67-489e-a8e7-0a5a0ff4e31b"
+Markdown = "d6f4376e-aef5-505a-96c1-9c027394607a"
+MarkdownAST = "d0879d2d-cac2-40c8-9cee-1863dc0c7391"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 TestItemRunner = "f8b46487-2199-4994-9208-9a1283c18c0a"
 
@@ -10,4 +15,10 @@ DocumenterDocstringStyle = {path = ".."}
 
 [compat]
 Aqua = "0.8"
-JET = "0.12"
+DocStringExtensions = "0.9"
+Documenter = "1.17"
+DocumenterCodeBlocks = "1.5"
+JET = "0.9 - 0.12"
+Markdown = "1"
+MarkdownAST = "0.1"
+Test = "1"
