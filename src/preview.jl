@@ -1,4 +1,5 @@
 const PREVIEW_DEMO = normpath(joinpath(@__DIR__, "..", "assets", "preview", "ConvDemo.jl"))
+const PREVIEW_BIB = normpath(joinpath(@__DIR__, "..", "assets", "preview", "refs.bib"))
 const PREVIEW_DOCS = ["conv2d", "Conv2d", "conv_transpose2d", "channels", "reset_cache!"]
 
 """
@@ -6,8 +7,8 @@ const PREVIEW_DOCS = ["conv2d", "Conv2d", "conv_transpose2d", "channels", "reset
 
 Build a throwaway site that renders the demo docstrings with `theme`.
 
-The site is built in a temporary directory, with DocumenterCodeBlocks when it
-is installed. Use it to iterate on a style file.
+The site is built in a temporary directory, with DocumenterCodeBlocks and
+DocumenterCitations when they are installed. Use it to iterate on a style file.
 
 # Arguments
 - `theme = :labeled`: anything `SchemaConfig(theme = ...)` accepts, including a
@@ -29,9 +30,10 @@ true
 """
 function preview(theme = :labeled; open::Bool = true)
     demo = demo_module()
-    codeblocks = codeblocks_module()
-    # The demo module and DocumenterCodeBlocks may be newer than this call's world.
-    return Base.invokelatest(build_preview, theme, open, demo, codeblocks)
+    codeblocks = optional_module("DocumenterCodeBlocks")
+    citations = optional_module("DocumenterCitations")
+    # The demo module and the optional plugins may be newer than this call's world.
+    return Base.invokelatest(build_preview, theme, open, demo, codeblocks, citations)
 end
 
 # The demo module lives in `Main` so `@docs` blocks can find it.
@@ -41,7 +43,7 @@ function demo_module()
     return Base.invokelatest(getglobal, Main, name)::Module
 end
 
-function build_preview(theme, open::Bool, demo::Module, codeblocks)
+function build_preview(theme, open::Bool, demo::Module, codeblocks, citations)
     themes = theme === :all ? preview_themes() : Any[theme isa AbstractString ? abspath(theme) : theme]
     dir = mktempdir()
     src = joinpath(dir, "src")
@@ -58,6 +60,11 @@ function build_preview(theme, open::Bool, demo::Module, codeblocks)
     end
     plugins = Any[SchemaConfig(; theme = first(themes), strict = false)]
     codeblocks === nothing || push!(plugins, getfield(codeblocks, :CodeBlocks)())
+    if citations !== nothing
+        push!(plugins, getfield(citations, :CitationBibliography)(PREVIEW_BIB))
+        write(joinpath(src, "bibliography.md"), "# Bibliography\n\n```@bibliography\n```\n")
+        push!(pages, "Bibliography" => "bibliography.md")
+    end
     Logging.with_logger(Logging.ConsoleLogger(stderr, Logging.Warn)) do
         Documenter.makedocs(;
             root = dir, source = "src", build = "build", sitename = "DocumenterDocstringStyle preview",
@@ -108,9 +115,9 @@ function preview_page(theme; canonical::Bool)
     """
 end
 
-# DocumenterCodeBlocks when it is installed, else `nothing`.
-function codeblocks_module()
-    id = Base.identify_package("DocumenterCodeBlocks")
+# The package `name` when it is installed, else `nothing`.
+function optional_module(name)
+    id = Base.identify_package(name)
     return id === nothing ? nothing : Base.require(id)
 end
 

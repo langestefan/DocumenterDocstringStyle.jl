@@ -77,6 +77,12 @@ end
     elapsed = @elapsed index = DocumenterDocstringStyle.preview(:all; open = false)
     @test elapsed < 30
     for theme in (:labeled, :pydata, :numpydoc, :table, :rustdoc)
-        @test occursin("ds-theme-$theme", read(joinpath(dirname(index), "$theme.html"), String))
+        html = read(joinpath(dirname(index), "$theme.html"), String)
+        @test occursin("ds-theme-$theme", html)
+        # DocumenterCitations resolved the citation inside the References section.
+        refs = match(r"<div class=\"ds-section ds-section-references.*?</div>\n</div>"s, html)
+        @test refs !== nothing
+        @test occursin("bibliography.html#DumoulinVisin2016", refs.match)
+        @test !occursin("@cite", refs.match)
     end
 end
