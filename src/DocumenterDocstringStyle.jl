@@ -7,15 +7,26 @@ module DocumenterDocstringStyle
 using Documenter: Documenter
 using DocumenterDocstringStyleMarkers: MINIMAL, Minimal, NOSCHEMA, NoSchema
 using Markdown: Markdown
+using MarkdownAST: MarkdownAST
 
 export MINIMAL, NOSCHEMA
 export Problem, SchemaConfig, check_docstring, check_module
+export DocstringTheme, ThemeSpec, register_theme!
 
 include("config.jl")
 include("problems.jl")
 include("parse.jl")
 include("methods.jl")
 include("check.jl")
+include("model.jl")
+include("themes/interface.jl")
+include("themes/spec.jl")
+include("themes/tokens.jl")
+include("themes/registry.jl")
+include("themes/render.jl")
+include("themes/builtins.jl")
+include("transform.jl")
+include("expander.jl")
 include("pipeline.jl")
 
 end
