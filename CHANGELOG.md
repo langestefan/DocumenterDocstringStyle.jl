@@ -16,6 +16,8 @@ and this project adheres to [Semantic Versioning].
 - Custom styles through `ThemeSpec`, TOML style files, design tokens and `register_theme!`.
 - `@docstyle` block to switch the style per page, and `DocumenterDocstringStyle.preview`.
 - Compatibility with DocumenterCodeBlocks.jl.
+- `# References` section that works with DocumenterCitations.jl `@cite` links.
+- Section headers link to themselves.
 
 <!-- Links -->
 

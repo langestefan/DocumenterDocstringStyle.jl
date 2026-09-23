@@ -32,7 +32,7 @@ false
 Base.@kwdef struct SchemaConfig <: Documenter.Plugin
     order::Vector{String} = [
         "Arguments", "Keywords", "Returns", "Throws",
-        "Notes", "Examples", "See also", "Extended help",
+        "Notes", "Examples", "See also", "References", "Extended help",
     ]
     required::Vector{String} = ["Returns", "Examples"]
     na_markers::Vector{String} = ["N/A"]

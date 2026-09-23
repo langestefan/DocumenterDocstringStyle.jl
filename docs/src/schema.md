@@ -17,7 +17,8 @@ A full docstring has a header, made of an indented signature block followed by a
 | 5 | Notes | Optional | Free Markdown. Admonitions belong here. |
 | 6 | Examples | Always | At least one `jldoctest` block. |
 | 7 | See also | Optional | Paragraph of `@ref` links. |
-| 8 | Extended help | Optional | Free Markdown. Must stay last: the REPL shows it only with `??f`. |
+| 8 | References | Optional | Bullet list of sources, one per item. Works with [DocumenterCitations.jl](https://github.com/JuliaDocs/DocumenterCitations.jl) `@cite` links, see [References and citations](@ref). |
+| 9 | Extended help | Optional | Free Markdown. Must stay last: the REPL shows it only with `??f`. |
 
 Section names match exactly and are case-sensitive. The list, the order and the required sections come from [`SchemaConfig`](@ref), so a project can rename or extend them.
 
@@ -33,6 +34,18 @@ Section names match exactly and are case-sensitive. The list, the order and the 
 - Inside the code span, `name` is required. `::Type` and `= default` are optional, in that order.
 - Varargs are written `args...` or `kwargs...`.
 - Write one item per name; shared descriptions are not supported.
+
+## References and citations
+
+`# References` lists the sources of a docstring. It follows the convention of [DocumenterCitations.jl](https://github.com/JuliaDocs/DocumenterCitations.jl): one bullet per source, each a `@cite` link followed by a short citation, so the docstring still reads well in the REPL.
+
+```markdown
+# References
+- [DumoulinVisin2016](@cite) V. Dumoulin and F. Visin. *A guide to convolution
+  arithmetic for deep learning*. arXiv:1603.07285 (2016).
+```
+
+Add `CitationBibliography("refs.bib")` to the `plugins` of `makedocs`, next to `SchemaConfig`, and put an `@bibliography` block on one page. DocumenterCitations expands the links before the docstrings are rendered, so every style shows the resolved citations. See [`conv2d`](@ref Main.ConvDemo.conv2d) on the style pages and the [Bibliography](bibliography.md).
 
 ## Opting out
 
