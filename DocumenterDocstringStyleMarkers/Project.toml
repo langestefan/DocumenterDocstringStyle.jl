@@ -1,0 +1,7 @@
+name = "DocumenterDocstringStyleMarkers"
+uuid = "68597acc-23c7-55da-b90b-863e272e1ca0"
+authors = ["Stefan de Lange <langestefan@msn.com>"]
+version = "0.1.0"
+
+[compat]
+julia = "1.10"
