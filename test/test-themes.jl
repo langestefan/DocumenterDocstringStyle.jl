@@ -100,3 +100,19 @@ end
     html = DocsBuild.docstring_html(dir, "reset_cache!")
     @test !occursin("N/A", html)
 end
+
+@testitem "Section headers are permalinks" tags = [:integration] setup = [DocsBuild] begin
+    using DocumenterDocstringStyle
+    dir = DocsBuild.build(; plugins = [SchemaConfig(theme = :labeled)])
+    html = DocsBuild.docstring_html(dir, "conv2d")
+    @test occursin(
+        "<div class=\"ds-label\" id=\"Main.FixturePkg.conv2d-arguments\"><a class=\"ds-anchor\" href=\"#Main.FixturePkg.conv2d-arguments\">Arguments</a></div>",
+        html,
+    )
+    page = read(joinpath(dir, "index.html"), String)
+    ids = [m[1] for m in eachmatch(r"<div class=\"ds-label\" id=\"([^\"]+)\"", page)]
+    @test !isempty(ids)
+    @test allunique(ids)
+    # Every header links to itself.
+    @test all(id -> occursin("id=\"$id\"><a class=\"ds-anchor\" href=\"#$id\">", page), ids)
+end

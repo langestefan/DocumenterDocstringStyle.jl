@@ -16,7 +16,8 @@ function code_blocks(node::Node, out = String[])
 end
 
 # Transform one docstring AST in place. Returns whether it was transformed.
-function transform_docstring!(ast::Node, ds::Base.Docs.DocStr, binding, theme::DocstringTheme, config::SchemaConfig)
+# `anchor` is the HTML id prefix for the section headers; `nothing` for none.
+function transform_docstring!(ast::Node, ds::Base.Docs.DocStr, binding, theme::DocstringTheme, config::SchemaConfig; anchor = nothing)
     transforms(theme) || return false
     isdefined(binding.mod, binding.var) || return false
     f = Base.Docs.resolve(binding)
@@ -36,7 +37,7 @@ function transform_docstring!(ast::Node, ds::Base.Docs.DocStr, binding, theme::D
         code_blocks(b, expected)
     end
 
-    ctx = (; config, binding)
+    ctx = (; config, binding, anchor)
     out = Node[raw("<div class=\"ds-sections ds-theme-$(css_class(theme_name(theme)))\">")]
     for s in kept
         append!(out, render_section(theme, s, ctx))

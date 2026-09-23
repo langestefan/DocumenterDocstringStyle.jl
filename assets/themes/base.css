@@ -93,6 +93,19 @@
   margin-bottom: 0.4rem;
 }
 
+/* Section header permalinks */
+.ds-sections .ds-label {
+  scroll-margin-top: 4rem;
+}
+
+.ds-sections .ds-label > a.ds-anchor {
+  color: inherit;
+}
+
+.ds-sections .ds-label > a.ds-anchor:hover {
+  text-decoration: underline;
+}
+
 /* Parameters: shared pieces */
 .ds-param-sig {
   display: flex;

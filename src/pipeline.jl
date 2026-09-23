@@ -77,8 +77,10 @@ function Documenter.Selectors.runner(::Type{TransformSchema}, doc::Documenter.Do
                 theme = get_theme(e.dict[DOCSTYLE_KEY])
             elseif e isa Documenter.DocsNode
                 binding = e.object.binding
-                for (ast, ds) in zip(e.mdasts, e.results)
-                    if transform_docstring!(ast, ds, binding, theme, config)
+                for (i, (ast, ds)) in enumerate(zip(e.mdasts, e.results))
+                    # Same id Documenter gives the docstring, one prefix per method docstring.
+                    anchor = i == 1 ? e.anchor.id : "$(e.anchor.id)-$i"
+                    if transform_docstring!(ast, ds, binding, theme, config; anchor)
                         any(t -> theme_name(t) === theme_name(theme), state.themes) || push!(state.themes, theme)
                     end
                 end

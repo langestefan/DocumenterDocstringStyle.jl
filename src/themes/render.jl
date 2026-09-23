@@ -15,13 +15,26 @@ html_escape(s) = replace(string(s), "&" => "&amp;", "<" => "&lt;", ">" => "&gt;"
 
 css_class(x) = replace(string(x), r"[^A-Za-z0-9_-]" => "-")
 
+# `id` of a section header: the docstring's anchor plus the section id.
+function section_anchor(ctx, s::Section)
+    anchor = get(ctx, :anchor, nothing)
+    anchor === nothing && return nothing
+    return "$(anchor)-$(css_class(s.id))"
+end
+
+function label_html(label, id)
+    id === nothing && return "<div class=\"ds-label\">$label</div>"
+    id = html_escape(id)
+    return "<div class=\"ds-label\" id=\"$id\"><a class=\"ds-anchor\" href=\"#$id\">$label</a></div>"
+end
+
 function render_section(t::ThemeSpec, s::Section, ctx)
     header = layout(t, s.id, :section_header)
     classes = "ds-section ds-section-$(css_class(s.id)) ds-header-$header" * (s.na ? " ds-na" : "")
-    label = section_label(t, s.id, s.name)
+    label = html_escape(section_label(t, s.id, s.name))
     nodes = Node[
         raw("<div class=\"$classes\">"),
-        raw("<div class=\"ds-label\">$(html_escape(label))</div>"),
+        raw(label_html(label, section_anchor(ctx, s))),
         raw("<div class=\"ds-content\">"),
     ]
     if s.params === nothing || s.na || layout(t, s.id, :params) === :list
