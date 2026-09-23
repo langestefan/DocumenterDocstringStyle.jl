@@ -56,3 +56,62 @@ register_builtin!(
         default = :hidden,
     )
 )
+
+const PYTHON_LABELS = Dict(:arguments => "Parameters", :keywords => "Keyword Arguments", :throws => "Raises")
+
+# PyTorch docs (pydata-sphinx-theme): shaded "Parameters:" bars and bullets,
+# **name** (type) – description, then "Default: `1`".
+register_builtin!(
+    ThemeSpec(;
+        name = :pydata,
+        section_header = :bar,
+        params = :bullets,
+        default = :suffix,
+        labels = PYTHON_LABELS,
+        tokens = Dict("accent" => "#0a7d91", "label-bg" => "#eef1f4"),
+        tokens_dark = Dict("accent" => "#4fb2c9", "label-bg" => "#2c3435"),
+        css = [theme_css(:pydata)],
+    )
+)
+
+# NumPy and SciPy docs (numpydoc): headings with a rule underneath and a
+# definition list, `name : type, default: 1`.
+register_builtin!(
+    ThemeSpec(;
+        name = :numpydoc,
+        section_header = :heading_rule,
+        params = :deflist,
+        default = :in_type,
+        labels = PYTHON_LABELS,
+        tokens = Dict("accent" => "#013243"),
+        tokens_dark = Dict("accent" => "#4dabcf"),
+        css = [theme_css(:numpydoc)],
+    )
+)
+
+# mkdocstrings with mkdocs-material: small bold headings and a table with
+# Name, Type, Description and Default columns.
+register_builtin!(
+    ThemeSpec(;
+        name = :table,
+        section_header = :heading,
+        params = :table,
+        default = :column,
+        tokens = Dict("accent" => "#4051b5", "label-bg" => "#f5f6fa"),
+        tokens_dark = Dict("accent" => "#8c9cf5", "label-bg" => "#2c3435"),
+        css = [theme_css(:table)],
+    )
+)
+
+# docs.rs (rustdoc): plain headings with a bottom border and the list as written.
+register_builtin!(
+    ThemeSpec(;
+        name = :rustdoc,
+        section_header = :heading,
+        params = :list,
+        default = :hidden,
+        tokens = Dict("accent" => "#3873ad"),
+        tokens_dark = Dict("accent" => "#d2991d"),
+        css = [theme_css(:rustdoc)],
+    )
+)

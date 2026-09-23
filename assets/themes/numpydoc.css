@@ -1,0 +1,19 @@
+/*
+ * Numpydoc theme, modeled on the NumPy and SciPy API reference built with
+ * numpydoc (https://numpy.org/doc/stable/reference/, 2026-09).
+ */
+
+.ds-theme-numpydoc .ds-header-heading_rule > .ds-label {
+  color: var(--ds-accent);
+}
+
+.ds-theme-numpydoc .ds-params-deflist .ds-name code {
+  font-weight: 700;
+}
+
+.ds-theme-numpydoc .ds-params-deflist .ds-type code,
+.ds-theme-numpydoc .ds-params-deflist .ds-default code {
+  font-family: var(--ds-font-body);
+  font-style: italic;
+  font-size: 1em;
+}
