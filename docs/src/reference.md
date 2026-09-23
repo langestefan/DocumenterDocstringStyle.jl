@@ -3,13 +3,13 @@
 ## Contents
 
 ```@contents
-Pages = ["95-reference.md"]
+Pages = ["reference.md"]
 ```
 
 ## Index
 
 ```@index
-Pages = ["95-reference.md"]
+Pages = ["reference.md"]
 ```
 
 ```@autodocs

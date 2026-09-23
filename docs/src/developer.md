@@ -1,7 +1,7 @@
 # [Developer documentation](@id dev_docs)
 
 !!! note "Contributing guidelines"
-    If you haven't, please read the [Contributing guidelines](90-contributing.md) first.
+    If you haven't, please read the [Contributing guidelines](contributing.md) first.
 
 If you want to make contributions to this package that involves code, then this guide is for you.
 
@@ -28,42 +28,29 @@ You will create branches and push to `origin`, and you will fetch and update you
 Install a plugin on your editor to use [EditorConfig](https://editorconfig.org).
 This will ensure that your editor is configured with important formatting settings.
 
-We use [https://pre-commit.com](https://pre-commit.com) to run the linters and formatters.
-In particular, the Julia code is formatted using [JuliaFormatter.jl](https://github.com/domluna/JuliaFormatter.jl), so please install it globally first:
+We use [prek](https://github.com/j178/prek) to run the linters and formatters. It reads the same `.pre-commit-config.yaml` as [pre-commit](https://pre-commit.com).
+The Julia code is formatted with [Runic.jl](https://github.com/fredrikekre/Runic.jl). The Runic hook installs its own copy of Runic, so the only requirement is a `julia` on your `PATH`.
 
-```julia-repl
-julia> # Press ]
-pkg> activate
-pkg> add JuliaFormatter
-```
-
-To install `pre-commit`, we recommend using [pipx](https://pipx.pypa.io) as follows:
+Install prek following the instructions in its [README](https://github.com/j178/prek), then activate it as a git hook:
 
 ```bash
-# Install pipx following the link
-pipx install pre-commit
-```
-
-With `pre-commit` installed, activate it as a pre-commit hook:
-
-```bash
-pre-commit install
+prek install
 ```
 
 To run the linting and formatting manually, enter the command below:
 
 ```bash
-pre-commit run -a
+prek run -a
 ```
 
-**Now, you can only commit if all the pre-commit tests pass**.
+**Now, you can only commit if all the hooks pass**.
 
 ### Link checking locally
 
 We use `lychee` for link checking in CI. You can run it locally to avoid waiting for CI. First, [install lychee](https://github.com/lycheeverse/lychee?tab=readme-ov-file#installation), then run against the repository root using the project config:
 
 ```bash
-lychee --no-progress --config lychee.toml .
+lychee --no-progress --config .lychee.toml .
 ```
 
 ## Testing

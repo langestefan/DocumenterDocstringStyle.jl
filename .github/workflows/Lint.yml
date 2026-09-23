@@ -14,7 +14,6 @@ concurrency:
   cancel-in-progress: ${{ startsWith(github.ref, 'refs/pull/') }}
 
 jobs:
-
   lint:
     name: Linting
     runs-on: ubuntu-latest
@@ -27,26 +26,13 @@ jobs:
           version: "1"
       - name: Use Julia cache
         uses: julia-actions/cache@v3
-      - name: Install Julia packages
-        run: julia -e 'using Pkg; pkg"add JuliaFormatter"'
-      - name: Hack for setup-python cache # https://github.com/actions/setup-python/issues/807
-        run: touch requirements.txt
-      - name: Setup Python
-        uses: actions/setup-python@v7
-        with:
-          cache: "pip"
-          python-version: "3.11"
-      - name: Hack for setup-python cache # https://github.com/actions/setup-python/issues/807
-        run: rm requirements.txt
-      - name: Cache pre-commit
-        uses: actions/cache@v6
-        with:
-          path: ~/.cache/pre-commit
-          key: ${{ runner.os }}-pre-commit-${{ hashFiles('**/.pre-commit-config.yaml') }}
-      - name: Install pre-commit
-        run: pip install pre-commit
-      - name: Run pre-commit
-        run: SKIP=no-commit-to-branch pre-commit run -a
+      # The runic hook is a Julia-language hook, so prek builds its own environment with
+      # Runic from the hook repository. It only needs a julia on the PATH.
+      - name: Run prek
+        uses: j178/prek-action@v3.0.0
+        env:
+          SKIP: no-commit-to-branch
+
   link-checker:
     name: Link checker
     runs-on: ubuntu-latest

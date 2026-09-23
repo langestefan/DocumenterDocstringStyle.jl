@@ -11,8 +11,7 @@ body:
         Please, before submitting, make sure that:
 
         - There is not an [existing issue](https://github.com/langestefan/DocumenterDocstringStyle.jl/issues) with the same question
-        - You have read the [contributing guide](https://langestefan.github.io/DocumenterDocstringStyle.jl/dev/90-contributing/)
-        - You are following the [code of conduct](https://github.com/langestefan/DocumenterDocstringStyle.jl/blob/main/CODE_OF_CONDUCT.md)
+        - You have read the [contributing guide](https://langestefan.github.io/DocumenterDocstringStyle.jl/dev/contributing/)
         The form below should help you in filling out this issue.
   - type: textarea
     id: description

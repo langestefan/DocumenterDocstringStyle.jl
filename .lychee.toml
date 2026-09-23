@@ -2,6 +2,7 @@ exclude = [
   "@ref",
   "@[Cc]ite.*",
   "^https://github.com/.*/releases/tag/v.*$",
+  "^https://github.com/.*/compare/.*$",
   "^https://doi.org/FIXME$",
   "^https://langestefan.github.io/DocumenterDocstringStyle.jl/stable/?$",
   "^https://blog.esciencecenter.nl", # due to a certificate error (cf. #556)
