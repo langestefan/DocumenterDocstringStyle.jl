@@ -7,7 +7,15 @@ and this project adheres to [Semantic Versioning].
 
 ## [Unreleased]
 
-- Initial release
+### Added
+
+- Docstring schema checker with rules DS001–DS050, usable standalone through `check_module` and `check_docstring`.
+- `SchemaConfig` Documenter plugin: fails or warns during `makedocs`, and does nothing without a config.
+- `MINIMAL` and `NOSCHEMA` opt-out markers in the dependency-free `DocumenterDocstringStyleMarkers` package.
+- Rendering themes `:labeled`, `:pydata`, `:numpydoc`, `:table`, `:rustdoc` and `:plain`, all defined as `ThemeSpec`s.
+- Custom styles through `ThemeSpec`, TOML style files, design tokens and `register_theme!`.
+- `@docstyle` block to switch the style per page, and `DocumenterDocstringStyle.preview`.
+- Compatibility with DocumenterCodeBlocks.jl.
 
 <!-- Links -->
 
