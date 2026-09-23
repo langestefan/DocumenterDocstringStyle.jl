@@ -40,44 +40,58 @@ end
     @test_throws r"cyclic `extends` chain" resolve_theme(:cycle_a)
 end
 
-@testitem "Labeled theme keeps the transform guarantees" tags = [:integration] setup = [DocsBuild] begin
+@testitem "Built-in themes keep the transform guarantees" tags = [:integration] setup = [DocsBuild] begin
     using DocumenterDocstringStyle, DocumenterCodeBlocks, Test
     plain = DocsBuild.build(; plugins = [SchemaConfig(theme = :plain), CodeBlocks()])
-    logs, labeled = Test.collect_test_logs(; min_level = Base.CoreLogging.Warn) do
-        DocsBuild.build(; plugins = [SchemaConfig(theme = :labeled), CodeBlocks()])
-    end
-    @test !any(l -> occursin("CodeBlocks:", string(l.message)), logs)
-    @test isfile(joinpath(labeled, "assets", "documenterdocstringstyle", "base.css"))
-    @test isfile(joinpath(labeled, "assets", "documenterdocstringstyle", "tokens-labeled.css"))
-    @test occursin("assets/documenterdocstringstyle/labeled.css", read(joinpath(labeled, "index.html"), String))
+    for theme in (:labeled, :pydata, :numpydoc, :table, :rustdoc)
+        logs, dir = Test.collect_test_logs(; min_level = Base.CoreLogging.Warn) do
+            DocsBuild.build(; plugins = [SchemaConfig(; theme), CodeBlocks()])
+        end
+        @test !any(l -> occursin("CodeBlocks:", string(l.message)), logs)
+        assets = joinpath(dir, "assets", "documenterdocstringstyle")
+        @test isfile(joinpath(assets, "base.css"))
+        @test isfile(joinpath(assets, "$theme.css"))
+        @test isfile(joinpath(assets, "tokens-$theme.css"))
+        @test occursin("assets/documenterdocstringstyle/$theme.css", read(joinpath(dir, "index.html"), String))
 
-    for name in ("conv2d", "reset_cache!", "splat", "twomethods", "typed")
-        html = DocsBuild.docstring_html(labeled, name)
-        # 1. Signature `<pre>` directly after `<section><div>`, without a gutter.
-        m = match(r"<section><div><pre[^>]*>", html)
-        @test m !== nothing
-        @test !occursin("line-numbers", m.match)
-        # 2. Same code blocks as the untransformed build.
-        @test count("<pre", html) == count("<pre", DocsBuild.docstring_html(plain, name))
+        for name in ("conv2d", "reset_cache!", "splat", "twomethods", "typed", "multi_paragraph")
+            html = DocsBuild.docstring_html(dir, name)
+            # 1. Signature `<pre>` directly after `<section><div>`, without a gutter.
+            m = match(r"<section><div><pre[^>]*>", html)
+            @test m !== nothing
+            @test !occursin("line-numbers", m.match)
+            # 2. Same code blocks as the untransformed build.
+            @test count("<pre", html) == count("<pre", DocsBuild.docstring_html(plain, name))
+            @test occursin("ds-theme-$theme", html)
+        end
+        conv = DocsBuild.docstring_html(dir, "conv2d")
+        @test occursin("line-numbers", conv)   # the example keeps its gutter
+        @test !occursin("ds-theme", DocsBuild.docstring_html(dir, "channels"))   # MINIMAL
     end
-    conv = DocsBuild.docstring_html(labeled, "conv2d")
-    @test occursin("ds-theme-labeled", conv)
-    @test occursin("line-numbers", conv)                     # example keeps its gutter
-    @test occursin("<div class=\"ds-name\"><p><code>x</code></p></div>", conv)
-    @test !occursin("ds-theme", DocsBuild.docstring_html(labeled, "channels"))   # MINIMAL
 end
 
-@testitem "Labeled snapshot" tags = [:integration] setup = [DocsBuild] begin
+@testitem "Table theme falls back to rows" tags = [:integration] setup = [DocsBuild] begin
     using DocumenterDocstringStyle
-    dir = DocsBuild.build(; plugins = [SchemaConfig(theme = :labeled)])
+    dir = @test_logs (:info, r"multi-block description; using rows") match_mode = :any begin
+        DocsBuild.build(; plugins = [SchemaConfig(theme = :table)])
+    end
+    @test occursin("ds-params-rows", DocsBuild.docstring_html(dir, "multi_paragraph"))
+    @test occursin("ds-params-table", DocsBuild.docstring_html(dir, "conv2d"))
+end
+
+@testitem "Theme snapshots" tags = [:integration] setup = [DocsBuild] begin
+    using DocumenterDocstringStyle
     # Admonition anchors end in a hash that differs between Julia versions.
     normalize(s) = strip(replace(s, r"\s+" => " ", r"-[0-9a-f]{16}\"" => "-HASH\""))
-    html = normalize(DocsBuild.docstring_html(dir, "conv2d"))
-    path = joinpath(@__DIR__, "snapshots", "labeled.html")
-    if get(ENV, "UPDATE_SNAPSHOTS", "") == "1" || !isfile(path)
-        write(path, html * "\n")
+    for theme in (:labeled, :pydata, :numpydoc, :table, :rustdoc)
+        dir = DocsBuild.build(; plugins = [SchemaConfig(; theme)])
+        html = normalize(DocsBuild.docstring_html(dir, "conv2d"))
+        path = joinpath(@__DIR__, "snapshots", "$theme.html")
+        if get(ENV, "UPDATE_SNAPSHOTS", "") == "1" || !isfile(path)
+            write(path, html * "\n")
+        end
+        @test html == normalize(read(path, String))
     end
-    @test html == normalize(read(path, String))
 end
 
 @testitem "hide_na drops N/A sections" tags = [:integration] setup = [DocsBuild] begin

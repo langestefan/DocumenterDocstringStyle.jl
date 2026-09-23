@@ -196,6 +196,27 @@ module FixturePkg
     """
     typed(x::Int) = x + 1
 
+    """
+        multi_paragraph(x) -> Int
+
+    Return one.
+
+    # Arguments
+    - `x`: ignored.
+
+      A second paragraph, which a table cell cannot hold.
+
+    # Returns
+    One.
+
+    # Examples
+    ```jldoctest
+    julia> multi_paragraph(2)
+    1
+    ```
+    """
+    multi_paragraph(x) = 1
+
 end
 
 # Fixtures that break the schema. The first is the broken `conv2d` from the
