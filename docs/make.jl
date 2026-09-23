@@ -1,5 +1,10 @@
 using DocumenterDocstringStyle
 using Documenter
+using DocumenterCodeBlocks
+
+# Demo module rendered on the style pages.
+include(joinpath(@__DIR__, "ConvDemo.jl"))
+DocMeta.setdocmeta!(ConvDemo, :DocTestSetup, :(using Main.ConvDemo); recursive = true)
 
 DocMeta.setdocmeta!(
     DocumenterDocstringStyle,
@@ -12,6 +17,7 @@ DocMeta.setdocmeta!(
 const titles = Dict(
     # "10-tutorials" => "Tutorials", # example folder title
     "developer.md" => "Developer docs",
+    "styles" => "Styles",
 )
 
 function recursively_list_pages(folder; path_prefix = "")
@@ -64,7 +70,7 @@ function list_pages()
 end
 
 makedocs(;
-    modules = [DocumenterDocstringStyle],
+    modules = [DocumenterDocstringStyle, ConvDemo],
     authors = "Stefan de Lange <langestefan@msn.com>",
     repo = "https://github.com/langestefan/DocumenterDocstringStyle.jl/blob/{commit}{path}#{line}",
     sitename = "DocumenterDocstringStyle.jl",
@@ -72,6 +78,7 @@ makedocs(;
         canonical = "https://langestefan.github.io/DocumenterDocstringStyle.jl",
     ),
     pages = list_pages(),
+    plugins = [SchemaConfig(strict = true), CodeBlocks()],
 )
 
 deploydocs(; repo = "github.com/langestefan/DocumenterDocstringStyle.jl")
