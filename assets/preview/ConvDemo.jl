@@ -1,5 +1,6 @@
 # Demo module for the style pages and `preview`. The `conv2d`, `channels` and `reset_cache!`
-# docstrings are the design's reference docstrings, copied verbatim.
+# docstrings are the design's reference docstrings, copied verbatim; `conv2d` also has a
+# `# References` section that cites `refs.bib` through DocumenterCitations.
 module ConvDemo
 
 using DocumenterDocstringStyle: MINIMAL
@@ -77,6 +78,10 @@ julia> size(conv2d(x, w; pad=1))
 
 # See also
 [`conv_transpose2d`](@ref), [`Conv2d`](@ref)
+
+# References
+- [DumoulinVisin2016](@cite) V. Dumoulin and F. Visin. *A guide to convolution
+  arithmetic for deep learning*. arXiv:1603.07285 (2016).
 """
 function conv2d(
         x::AbstractArray{T, 4}, w::AbstractArray{T, 4};

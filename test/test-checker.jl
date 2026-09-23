@@ -17,6 +17,14 @@ end
     @test isempty(Fixtures.codes(:conv2d))
 end
 
+@testitem "References section passes" tags = [:unit, :fast] begin
+    using DocumenterDocstringStyle
+    demo = include(joinpath(pkgdir(DocumenterDocstringStyle), "assets", "preview", "ConvDemo.jl"))
+    ds = only(values(Base.Docs.meta(demo)[Base.Docs.Binding(demo, :conv2d)].docs))
+    @test occursin("# References", ds.text[1])
+    @test isempty(check_module(demo))
+end
+
 @testitem "MINIMAL docstring passes and renders without the marker" tags = [:unit, :fast] setup = [Fixtures] begin
     @test isempty(Fixtures.codes(:channels))
     text = string(@doc Fixtures.FixturePkg.channels)
