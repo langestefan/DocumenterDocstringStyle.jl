@@ -9,6 +9,7 @@ projects = ["test", "docs", "DocumenterDocstringStyleMarkers"]
 [deps]
 Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
 DocumenterDocstringStyleMarkers = "68597acc-23c7-55da-b90b-863e272e1ca0"
+Logging = "56ddb016-857b-54e1-b83d-db4d58db5568"
 Markdown = "d6f4376e-aef5-505a-96c1-9c027394607a"
 MarkdownAST = "d0879d2d-cac2-40c8-9cee-1863dc0c7391"
 TOML = "fa267f1f-6049-4f14-aa54-33bafae1ed76"
@@ -19,6 +20,7 @@ DocumenterDocstringStyleMarkers = {path = "DocumenterDocstringStyleMarkers"}
 [compat]
 Documenter = "1.17"
 DocumenterDocstringStyleMarkers = "0.1"
+Logging = "1"
 Markdown = "1"
 MarkdownAST = "0.1"
 TOML = "1"
