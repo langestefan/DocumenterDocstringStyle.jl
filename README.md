@@ -8,6 +8,29 @@
 [![Lint workflow Status](https://github.com/langestefan/DocumenterDocstringStyle.jl/actions/workflows/Lint.yml/badge.svg?branch=main)](https://github.com/langestefan/DocumenterDocstringStyle.jl/actions/workflows/Lint.yml?query=branch%3Amain)
 [![Docs workflow Status](https://github.com/langestefan/DocumenterDocstringStyle.jl/actions/workflows/Docs.yml/badge.svg?branch=main)](https://github.com/langestefan/DocumenterDocstringStyle.jl/actions/workflows/Docs.yml?query=branch%3Amain)
 
+A [Documenter.jl](https://documenter.juliadocs.org/) plugin that checks function docstrings against a fixed Markdown schema and renders them in a structured layout. One plain Markdown source can look like the PyTorch, NumPy, mkdocstrings or docs.rs docs, and still read well in the REPL.
+
+## Usage
+
+Pass a `SchemaConfig` to `makedocs`:
+
+```julia
+using Documenter, DocumenterDocstringStyle, MyPkg
+
+makedocs(;
+    modules = [MyPkg],
+    sitename = "MyPkg.jl",
+    plugins = [SchemaConfig(strict = true, theme = :pydata)],
+)
+```
+
+- The build fails (or warns, with `strict = false`) when a docstring breaks the schema, with one line per problem.
+- `theme` picks a built-in style (`:labeled`, `:pydata`, `:numpydoc`, `:table`, `:rustdoc`, `:plain`), a `ThemeSpec` or a TOML style file.
+- It works alongside [DocumenterCodeBlocks.jl](https://github.com/fredrikekre/DocumenterCodeBlocks.jl).
+- `check_module(MyPkg)` runs the same check in a test suite.
+
+See the [documentation](https://langestefan.github.io/DocumenterDocstringStyle.jl/dev/) for the schema, every style and how to write your own.
+
 ## How to Cite
 
 If you use DocumenterDocstringStyle.jl in your work, please cite using the reference given in [CITATION.cff](https://github.com/langestefan/DocumenterDocstringStyle.jl/blob/main/CITATION.cff).
