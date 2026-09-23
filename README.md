@@ -1,4 +1,4 @@
-# DocumenterDocstringStyle
+# DocumenterDocstringStyle.jl
 
 [![Stable Documentation](https://img.shields.io/badge/docs-stable-blue.svg)](https://langestefan.github.io/DocumenterDocstringStyle.jl/stable)
 [![Development documentation](https://img.shields.io/badge/docs-dev-blue.svg)](https://langestefan.github.io/DocumenterDocstringStyle.jl/dev)
@@ -8,7 +8,9 @@
 [![Lint workflow Status](https://github.com/langestefan/DocumenterDocstringStyle.jl/actions/workflows/Lint.yml/badge.svg?branch=main)](https://github.com/langestefan/DocumenterDocstringStyle.jl/actions/workflows/Lint.yml?query=branch%3Amain)
 [![Docs workflow Status](https://github.com/langestefan/DocumenterDocstringStyle.jl/actions/workflows/Docs.yml/badge.svg?branch=main)](https://github.com/langestefan/DocumenterDocstringStyle.jl/actions/workflows/Docs.yml?query=branch%3Amain)
 
-A [Documenter.jl](https://documenter.juliadocs.org/) plugin that checks function docstrings against a fixed Markdown schema and renders them in a structured layout. One plain Markdown source can look like the PyTorch, NumPy, mkdocstrings or docs.rs docs, and still read well in the REPL.
+A [Documenter.jl](https://documenter.juliadocs.org/) plugin that checks function
+docstrings against a fixed Markdown schema and renders them in a clear, structured
+layout.
 
 ## Usage
 
