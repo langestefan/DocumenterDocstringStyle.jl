@@ -3,10 +3,14 @@
     include(joinpath(@__DIR__, "fixtures", "FixturePkg.jl"))
 
     const PROBLEMS = check_module(FixturePkg)
-    const BAD = check_module(FixturePkg.Bad)
+    const BAD = check_module(FixtureBad)
 
     # Sorted problem codes reported for the function `name`.
     codes(name; problems = PROBLEMS) = sort([p.code for p in problems if p.binding.var === name])
+end
+
+@testitem "Every good fixture passes" tags = [:unit, :fast] setup = [Fixtures] begin
+    @test isempty(Fixtures.PROBLEMS)
 end
 
 @testitem "conv2d reference docstring passes" tags = [:unit, :fast] setup = [Fixtures] begin
@@ -40,13 +44,13 @@ end
 end
 
 @testitem "Section order, duplicates and doctests" tags = [:unit, :fast] setup = [Fixtures] begin
-    @test Fixtures.codes(:wrong_order) == [:DS012]
-    @test Fixtures.codes(:duplicate_notes) == [:DS011]
-    @test Fixtures.codes(:plain_example) == [:DS040]
+    @test Fixtures.codes(:wrong_order; problems = Fixtures.BAD) == [:DS012]
+    @test Fixtures.codes(:duplicate_notes; problems = Fixtures.BAD) == [:DS011]
+    @test Fixtures.codes(:plain_example; problems = Fixtures.BAD) == [:DS040]
 end
 
 @testitem "Keyword item without a code span" tags = [:unit, :fast] setup = [Fixtures] begin
-    @test Fixtures.codes(:bad_keyword_item) == [:DS034]
+    @test Fixtures.codes(:bad_keyword_item; problems = Fixtures.BAD) == [:DS034]
 end
 
 @testitem "Method introspection" tags = [:unit, :fast] setup = [Fixtures] begin
@@ -57,24 +61,27 @@ end
 end
 
 @testitem "Both markers warn and act as NOSCHEMA" tags = [:unit, :fast] setup = [Fixtures] begin
-    ps = filter(p -> p.binding.var === :both_markers, Fixtures.PROBLEMS)
+    ps = filter(p -> p.binding.var === :both_markers, Fixtures.BAD)
     @test [p.code for p in ps] == [:DS050]
     @test only(ps).severity === :warn
 end
 
 @testitem "Header rules" tags = [:unit, :fast] setup = [Fixtures] begin
     # No arguments, so only the static required sections are missing.
-    @test Fixtures.codes(:nosignature) == [:DS001, :DS002, :DS020, :DS020]
+    @test Fixtures.codes(:nosignature; problems = Fixtures.BAD) == [:DS001, :DS002, :DS020, :DS020]
 end
 
 @testitem "Config ignore, exclude and report" tags = [:unit, :fast] setup = [Fixtures] begin
     using DocumenterDocstringStyle
-    bad = Fixtures.FixturePkg.Bad
+    bad = Fixtures.FixtureBad
     ignored = check_module(bad; config = SchemaConfig(ignore = [:DS020]))
     @test !any(p -> p.code === :DS020, ignored)
-    @test isempty(check_module(bad; config = SchemaConfig(exclude = Any[bad.conv2d])))
+    excluded = check_module(bad; config = SchemaConfig(exclude = Any[bad.conv2d]))
+    @test !isempty(excluded)
+    @test !any(p -> p.binding.var === :conv2d, excluded)
 
-    report = sprint(show, MIME"text/plain"(), Fixtures.BAD)
+    conv = filter(p -> p.binding.var === :conv2d, Fixtures.BAD)
+    report = sprint(show, MIME"text/plain"(), conv)
     @test startswith(report, "DocumenterDocstringStyle: 7 problem(s)\n  ")
     @test occursin("FixturePkg.jl:", report)
     @test occursin("\n    DS030 `# Arguments` misses: w", report)
