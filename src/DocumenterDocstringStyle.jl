@@ -16,5 +16,6 @@ include("problems.jl")
 include("parse.jl")
 include("methods.jl")
 include("check.jl")
+include("pipeline.jl")
 
 end
