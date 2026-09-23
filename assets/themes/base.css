@@ -108,21 +108,22 @@
   margin: 0;
 }
 
-.ds-param-sig code,
-.ds-default-suffix code,
-.ds-params-table code {
+/* `.ds-sections` outranks Documenter's `html.theme--documenter-dark code`. */
+.ds-sections .ds-param-sig code,
+.ds-sections .ds-default-suffix code,
+.ds-sections .ds-params-table code {
   font-family: var(--ds-font-mono);
   background: transparent;
   padding: 0;
   font-size: 0.9em;
 }
 
-.ds-name code {
+.ds-sections .ds-name code {
   font-weight: 600;
   color: var(--ds-text);
 }
 
-.ds-type code {
+.ds-sections .ds-type code {
   color: var(--ds-muted);
 }
 
@@ -147,9 +148,15 @@
 }
 
 .ds-params-bullets .ds-param-sig,
+.ds-params-bullets .ds-name,
+.ds-params-bullets .ds-type,
 .ds-params-bullets .ds-param-desc,
 .ds-params-bullets .ds-param-desc > p:first-child {
   display: inline;
+}
+
+.ds-params-bullets .ds-type {
+  margin-left: 0.3rem;
 }
 
 .ds-params-bullets .ds-type::before {
@@ -188,8 +195,8 @@
 }
 
 /* default = :pill (and :column outside tables) */
-.ds-default-pill .ds-default code,
-.ds-default-column .ds-default code {
+.ds-defaults-pill .ds-default code,
+.ds-defaults-column .ds-default code {
   border: 1px solid var(--ds-border);
   border-radius: var(--ds-radius);
   padding: 0 0.4rem;
@@ -198,22 +205,22 @@
   white-space: nowrap;
 }
 
-.ds-default-pill .ds-default code::before,
-.ds-default-column .ds-default code::before {
+.ds-defaults-pill .ds-default code::before,
+.ds-defaults-column .ds-default code::before {
   content: "= ";
 }
 
 /* default = :in_type */
-.ds-default-in_type .ds-default::before {
+.ds-defaults-in_type .ds-default::before {
   content: "default: ";
   color: var(--ds-muted);
 }
 
-.ds-default-in_type .ds-type + .ds-default {
+.ds-defaults-in_type .ds-type + .ds-default {
   margin-left: -0.4rem;
 }
 
-.ds-default-in_type .ds-type + .ds-default::before {
+.ds-defaults-in_type .ds-type + .ds-default::before {
   content: ", default: ";
 }
 

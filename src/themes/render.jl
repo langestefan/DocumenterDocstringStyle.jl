@@ -44,7 +44,7 @@ function render_params(t::ThemeSpec, s::Section, ctx)
         @info "DocumenterDocstringStyle: `# $(s.name)` of $(ctx.binding) has a multi-block description; using rows instead of a table."
         style = :rows
     end
-    nodes = Node[raw("<div class=\"ds-params ds-params-$style ds-default-$default\">")]
+    nodes = Node[raw("<div class=\"ds-params ds-params-$style ds-defaults-$default\">")]
     for (p, description) in zip(s.params, descriptions)
         push!(nodes, raw("<div class=\"ds-param\">\n<div class=\"ds-param-sig\">"))
         push!(nodes, raw("<div class=\"ds-name\">"), code_paragraph(p.name), raw("</div>"))
@@ -67,14 +67,16 @@ function render_params(t::ThemeSpec, s::Section, ctx)
 end
 
 function render_table(params, descriptions, default)
+    show_type = any(p -> p.type !== nothing, params)
     show_default = default !== :hidden && any(p -> p.default !== nothing, params)
-    head = "<th>Name</th><th>Type</th><th>Description</th>" * (show_default ? "<th>Default</th>" : "")
+    head = "<th>Name</th>" * (show_type ? "<th>Type</th>" : "") * "<th>Description</th>" *
+        (show_default ? "<th>Default</th>" : "")
     nodes = Node[raw("<table class=\"ds-params ds-params-table\">\n<thead><tr>$head</tr></thead>\n<tbody>")]
     cell(content) = [raw("<td>"); content; raw("</td>")]
     for (p, description) in zip(params, descriptions)
         push!(nodes, raw("<tr>"))
         append!(nodes, cell([code_paragraph(p.name)]))
-        append!(nodes, cell(p.type === nothing ? Node[] : [code_paragraph(p.type)]))
+        show_type && append!(nodes, cell(p.type === nothing ? Node[] : [code_paragraph(p.type)]))
         append!(nodes, cell(description))
         show_default && append!(nodes, cell(p.default === nothing ? Node[] : [code_paragraph(p.default)]))
         push!(nodes, raw("</tr>"))
