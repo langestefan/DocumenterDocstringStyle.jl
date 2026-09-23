@@ -78,7 +78,7 @@ makedocs(;
         canonical = "https://langestefan.github.io/DocumenterDocstringStyle.jl",
     ),
     pages = list_pages(),
-    plugins = [SchemaConfig(strict = true), CodeBlocks()],
+    plugins = [SchemaConfig(strict = true, theme = :plain), CodeBlocks()],
 )
 
 deploydocs(; repo = "github.com/langestefan/DocumenterDocstringStyle.jl")
