@@ -1,0 +1,31 @@
+/*
+ * PyData theme, modeled on the PyTorch docs built with pydata-sphinx-theme
+ * (https://docs.pytorch.org/docs/stable/, 2026-09).
+ */
+
+.ds-theme-pydata .ds-header-bar > .ds-label {
+  font-size: 0.95rem;
+}
+
+.ds-theme-pydata .ds-params-bullets .ds-name code {
+  font-family: var(--ds-font-body);
+  font-weight: 700;
+  font-size: 1em;
+}
+
+.ds-theme-pydata .ds-params-bullets .ds-type code {
+  font-family: var(--ds-font-body);
+  font-style: italic;
+  font-size: 1em;
+  color: var(--ds-accent);
+}
+
+.ds-theme-pydata .ds-default-suffix code {
+  background: var(--ds-code-bg);
+  border-radius: var(--ds-radius);
+  padding: 0 0.3rem;
+}
+
+.ds-theme-pydata .ds-section-throws .ds-name code {
+  color: var(--ds-error);
+}

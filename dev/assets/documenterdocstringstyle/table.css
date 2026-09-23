@@ -1,0 +1,26 @@
+/*
+ * Table theme, modeled on mkdocstrings with mkdocs-material
+ * (https://mkdocstrings.github.io/python/usage/, 2026-09).
+ */
+
+.ds-theme-table .ds-header-heading > .ds-label {
+  font-size: 0.9rem;
+}
+
+.ds-theme-table .ds-params-table th {
+  background: var(--ds-label-bg);
+  font-size: 0.85rem;
+}
+
+.ds-theme-table .ds-params-table td {
+  vertical-align: top;
+}
+
+.ds-theme-table .ds-params-table td:first-child code {
+  font-weight: 600;
+  color: var(--ds-accent);
+}
+
+.ds-theme-table .ds-params-table td:nth-child(2) code {
+  color: var(--ds-muted);
+}
