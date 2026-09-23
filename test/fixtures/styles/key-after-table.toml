@@ -1,0 +1,5 @@
+name = "bad"
+
+[labels]
+keywords = "Other Parameters"
+params = "table"

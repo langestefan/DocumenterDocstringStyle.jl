@@ -1,0 +1,18 @@
+# A valid style: PyData colors with table parameters.
+name = "acme"
+extends = "pydata"
+params = "table"
+css = ["acme-extra.css"]
+
+[labels]
+keywords = "Other Parameters"
+
+[sections.throws]
+params = "bullets"
+
+[tokens]
+accent = "#9558B2"
+label-bg = "#f3eef7"
+
+[tokens_dark]
+accent = "#c796e2"
