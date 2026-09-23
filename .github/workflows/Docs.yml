@@ -50,6 +50,7 @@ jobs:
           julia --project=docs -e '
             using Documenter: DocMeta, doctest
             using DocumenterDocstringStyle
+            include("assets/preview/ConvDemo.jl")
             DocMeta.setdocmeta!(DocumenterDocstringStyle, :DocTestSetup, :(using DocumenterDocstringStyle); recursive=true)
             doctest(DocumenterDocstringStyle)'
       - name: Generate and deploy documentation
