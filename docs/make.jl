@@ -18,11 +18,16 @@ const titles = Dict(
     # "10-tutorials" => "Tutorials", # example folder title
     "developer.md" => "Developer docs",
     "styles" => "Styles",
+    "getting-started.md" => "Getting started",
 )
+
+# Pages listed here come first, in this order; the rest follow by filename
+const order = ["getting-started.md", "schema.md", "styles", "custom-styles.md", "reference.md"]
+page_rank(file) = (something(findfirst(==(file), order), length(order) + 1), file)
 
 function recursively_list_pages(folder; path_prefix = "")
     pages_list = Any[]
-    for file in readdir(folder)
+    for file in sort(readdir(folder); by = page_rank)
         if file == "index.md"
             # We add index.md separately to make sure it is the first in the list
             continue
