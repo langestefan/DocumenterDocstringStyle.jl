@@ -89,7 +89,7 @@ function resolve(spec::ThemeSpec, seen::Vector{Symbol} = Symbol[])
         end
         return spec
     end
-    spec.extends in seen && error("cyclic `extends` chain: $(join([seen; spec.extends], " -> "))")
+    (spec.extends === spec.name || spec.extends in seen) && error("cyclic `extends` chain: $(join([spec.name; seen; spec.extends], " -> "))")
     parent = resolve(lookup_theme(spec.extends), [seen; spec.extends])
     inherit(field) = getfield(spec, field) === :inherit ? getfield(parent, field) : getfield(spec, field)
     sections = Dict(k => copy(v) for (k, v) in parent.sections)

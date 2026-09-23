@@ -35,9 +35,10 @@ mutable struct SchemaState <: Documenter.Plugin
 end
 SchemaState() = SchemaState(DocstringTheme[])
 
-# Resolve a theme once at build start and check its stylesheets exist.
+# Resolve a theme once at build start and check its stylesheets exist. TOML
+# paths are relative to the directory of `make.jl`.
 function resolve_build_theme(theme, doc::Documenter.Document)
-    t = resolve_theme(theme)
+    t = resolve_theme(theme isa AbstractString ? css_path(theme, doc) : theme)
     for css in stylesheets(t)
         isfile(css_path(css, doc)) || error("theme `$(theme_name(t))`: stylesheet `$css` not found")
     end

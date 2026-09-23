@@ -46,11 +46,13 @@ builtin_theme(name::Symbol) = resolve(THEMES[name])
     resolve_theme(theme) -> DocstringTheme
 
 Turn the `theme` setting of a [`SchemaConfig`](@ref) into a ready theme: a
-registered name, a [`ThemeSpec`](@ref) or any other `DocstringTheme`.
+registered name, a TOML style file path, a [`ThemeSpec`](@ref) or any other
+`DocstringTheme`.
 
 $(MINIMAL)
 """
 resolve_theme(theme::Symbol) = resolve(lookup_theme(theme))
+resolve_theme(theme::AbstractString) = resolve(load_style(theme))
 resolve_theme(theme::ThemeSpec) = resolve(theme)
 resolve_theme(theme::DocstringTheme) = theme
-resolve_theme(theme) = error("unsupported theme `$(repr(theme))`: use a Symbol, a ThemeSpec or a DocstringTheme")
+resolve_theme(theme) = error("unsupported theme `$(repr(theme))`: use a Symbol, a TOML path, a ThemeSpec or a DocstringTheme")
