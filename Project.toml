@@ -1,0 +1,10 @@
+name = "DocumenterDocstringStyle"
+uuid = "4cc0470b-6d85-5391-9027-e4f74231ca86"
+authors = ["Stefan de Lange <langestefan@msn.com>"]
+version = "0.1.0"
+
+[workspace]
+projects = ["test", "docs"]
+
+[compat]
+julia = "1.12"

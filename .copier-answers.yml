@@ -1,0 +1,13 @@
+# Changes here will be overwritten by Copier
+AddPrecommitUpdateCI: false
+Authors: Stefan de Lange <langestefan@msn.com>
+JuliaMinVersion: '1.12'
+License: MIT
+LicenseCopyrightHolders: Stefan de Lange
+PackageName: DocumenterDocstringStyle
+PackageOwner: langestefan
+PackageUUID: 4cc0470b-6d85-5391-9027-e4f74231ca86
+StrategyConfirmIncluded: false
+StrategyLevel: 3
+StrategyReviewExcluded: false
+_src_path: /home/langestefan/.julia/packages/BestieTemplate/MPEqY
